@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<head>
+
+	<title>Draggable</title>	<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+
+	<script type="text/javascript" src="jquery-ui-1.8.21.custom.min.js"></script>
+
+	
+
+	<link href='index.css' rel='stylesheet' type='text/css'>
+
+</head>
+
+<h1>Draggable</h1>
+
+<form id="form1">
+
+	<div class="inputs">
+
+		<div>1</div>
+
+		<div>2</div>
+
+		<div>3</div>
+
+		<div>4</div>
+
+		<div>5</div>
+
+		<div>6</div>
+
+	</div>
+
+	<br/>
+
+	<table class="spaces">
+
+		<tr>
+
+			<td></td>
+
+			<td></td>
+
+			<td></td>
+
+		</tr>
+
+		<tr>
+
+			<td></td>
+
+			<td></td>
+
+			<td></td>
+
+		</tr>
+
+	</table>
+
+</form>
+
+<script>
+
+$(document).ready(function() {
+
+    $(".inputs div").draggable({
+
+        opacity: .4,
+
+        create: function() {
+
+            $(this).data('position', $(this).position())
+
+        },
+
+        cursorAt: {
+
+            left: 15
+
+        },
+
+        cursor: 'move',
+
+        start: function() {
+
+            $(this).stop(true, true)
+
+        }
+
+    });
+
+    $('.spaces').find('td').droppable({
+
+        drop: function(event, ui) {
+
+            snapToMiddle(ui.draggable, $(this));
+
+        }
+
+    });
+
+});
+
+function snapToMiddle(dragger, target) {
+
+    var topMove = target.position().top - dragger.data('position').top + (target.outerHeight(true) - dragger.outerHeight(true)) / 2;
+
+    var leftMove = target.position().left - dragger.data('position').left + (target.outerWidth(true) - dragger.outerWidth(true)) / 2;
+
+    dragger.animate({
+
+        top: topMove,
+
+        left: leftMove
+
+    }, {
+
+        duration: 600,
+
+        easing: 'easeOutBack'
+
+    });
+
+}
+
+</script>
